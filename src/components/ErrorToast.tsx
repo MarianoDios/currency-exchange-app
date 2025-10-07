@@ -1,8 +1,8 @@
-import { Snackbar, Alert } from '@mui/material';
+import { Snackbar, Alert } from '@mui/material'
 
 interface ErrorToastProps {
-  error: string | null;
-  onClose: () => void;
+  error: string | null
+  onClose: () => void
 }
 
 export const ErrorToast = ({ error, onClose }: ErrorToastProps) => (
@@ -16,4 +16,4 @@ export const ErrorToast = ({ error, onClose }: ErrorToastProps) => (
       {error}
     </Alert>
   </Snackbar>
-);
+)

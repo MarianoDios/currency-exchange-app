@@ -1,8 +1,9 @@
-import { Autocomplete, Box, Grid, IconButton, TextField } from "@mui/material";
-import type { useExchange } from "../hooks/useExchange";
-import { CurrencyExchange } from "@mui/icons-material";
+import { Autocomplete, Box, Grid, IconButton, TextField } from "@mui/material"
+import type { useExchange } from "../hooks/useExchange"
+import { CurrencyExchange } from "@mui/icons-material"
+import { useState } from "react"
 
-type ExchangeFormProps = ReturnType<typeof useExchange>;
+type ExchangeFormProps = ReturnType<typeof useExchange>
 
 const ExchangeForm = ({
   amount,
@@ -13,29 +14,37 @@ const ExchangeForm = ({
   setToCurrency,
   currencyList,
 }: ExchangeFormProps) => {
-  const currencyOptions = currencyList ? Object.values(currencyList) : [];
+  const currencyOptions = currencyList ? Object.values(currencyList) : []
+  const [inputValue, setInputValue] = useState<string>(amount.toString())
 
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    if (value === "" || /^\d*\.?\d*$/.test(value)) {
-      const numValue = value === "" ? 0 : parseFloat(value);
-      setAmount(numValue);
+    const RE_EDIT = /^\d*\.?\d*$/
+    const RE_NUMBER = /^\d+(?:\.\d+)?$/
+    const v = e.target.value.replace(",", ".")
+    
+    if (!RE_EDIT.test(v)) return
+    
+    setInputValue(v)
+    
+    if (v === "" || v === ".") {
+      setAmount(0)
+    } else if (RE_NUMBER.test(v)) {
+      setAmount(parseFloat(v))
     }
-  };
+  }
 
   return (
     <Box pt={3}>
-      <Grid container spacing={2} sx={{ mb: 4 }}>
+      <Grid container spacing={1} sx={{ mb: 4 }} width={"100%"}>
         <Grid size={{ xs: 12, sm: 4 }}>
           <TextField
             label="Amount"
+            type="text"
             inputMode="decimal"
-            type="number"
-            variant="outlined"
-            value={amount === 0 ? "" : amount}
+            value={inputValue}
             onChange={handleAmountChange}
+            placeholder="0.00"
             fullWidth
-            placeholder="0"
           />
         </Grid>
 
@@ -46,7 +55,7 @@ const ExchangeForm = ({
             value={fromCurrency}
             onChange={(_, newValue) => {
               if (newValue) {
-                setFromCurrency(newValue);
+                setFromCurrency(newValue)
               }
             }}
             renderInput={(params) => <TextField {...params} label="From" />}
@@ -54,14 +63,16 @@ const ExchangeForm = ({
           />
         </Grid>
 
-        <Grid size={{ xs: 12, sm: 1 }}>
+        <Grid size={{ xs: 12, sm: 2 }}>
           <IconButton
             onClick={() => {
-              setFromCurrency(toCurrency);
-              setToCurrency(fromCurrency);
+              setFromCurrency(toCurrency)
+              setToCurrency(fromCurrency)
             }}
             sx={{
-              mx: 2,
+              justifySelf: "center",
+              display: "flex",
+              m: 1,
               outline: "brand.purple",
               outlineWidth: "1px",
               outlineStyle: "solid",
@@ -79,7 +90,7 @@ const ExchangeForm = ({
             value={toCurrency}
             onChange={(_, newValue) => {
               if (newValue) {
-                setToCurrency(newValue);
+                setToCurrency(newValue)
               }
             }}
             renderInput={(params) => <TextField {...params} label="To" />}
@@ -88,7 +99,7 @@ const ExchangeForm = ({
         </Grid>
       </Grid>
     </Box>
-  );
-};
+  )
+}
 
-export default ExchangeForm;
+export default ExchangeForm

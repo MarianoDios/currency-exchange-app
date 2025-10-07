@@ -3,14 +3,14 @@ import {
   Box,
   Toolbar,
   Typography,
-} from "@mui/material";
-import { styled } from "@mui/material/styles";
+} from "@mui/material"
+import { styled } from "@mui/material/styles"
 
 const StyledAppBar = styled(AppBar)(({ theme }) => ({
   backgroundColor: theme.palette.brand.deepBlue,
   color: "white",
   borderBottom: `1px solid ${theme.palette.divider}`,
-}));
+}))
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => (
   <>
@@ -26,6 +26,6 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => (
       {children}
     </Box>
   </>
-);
+)
 
-export default MainLayout;
+export default MainLayout

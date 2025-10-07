@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { useExchange } from "../hooks/useExchange";
-import { ErrorToast } from "./ErrorToast";
+import { useState } from "react"
+import { useExchange } from "../hooks/useExchange"
+import { ErrorToast } from "./ErrorToast"
 import {
   Box,
   Typography,
@@ -8,16 +8,18 @@ import {
   Card,
   CardContent,
   type Theme,
-} from "@mui/material";
-import ExchangeForm from "./ExchangeForm";
-import ExchangeResult from "./ExchangeResult";
+} from "@mui/material"
+import ExchangeForm from "./ExchangeForm"
+import ExchangeResult from "./ExchangeResult"
+import { useViewport } from "../hooks/useViewport"
 
 const ExchangerWrapper = () => {
-  const [error, setError] = useState<string | null>(null);
-  const exchangeManager = useExchange();
+  const [error, setError] = useState<string | null>(null)
+  const exchangeManager = useExchange()
+  const { isMobile } = useViewport()
 
   if (exchangeManager.error && !error) {
-    setError("Error on loading data");
+    setError("Error on loading data")
   }
 
   return (
@@ -26,8 +28,8 @@ const ExchangerWrapper = () => {
       <Box
         sx={{
           background: (theme: Theme) =>
-            `linear-gradient(180deg,${theme.palette.brand.darkPurple} 10%, ${theme.palette.brand.purple} 30%, ${theme.palette.brand.lightGray} 30%)`,
-          minHeight: { xs: 320, sm: 380 },
+            `linear-gradient(180deg,${theme.palette.brand.darkPurple} 10%, ${theme.palette.brand.purple} ${isMobile? '50%': '30%'}, ${theme.palette.brand.lightGray} 30%)`,
+          minHeight: { xs: "80vh", sm: "90vh" },
           height: "100%",
           width: "100%",
           display: "flex",
@@ -58,7 +60,7 @@ const ExchangerWrapper = () => {
           <Paper
             elevation={4}
             sx={{
-              height: "80%",
+              height: "90%",
               width: "80%",
               display: "flex",
               alignItems: "center",
@@ -79,9 +81,26 @@ const ExchangerWrapper = () => {
             </Card>
           </Paper>
         </Box>
+        <Box mx={3}>
+            {isMobile && (
+              <Typography variant="body2" color="text.secondary">
+                {exchangeManager.transactionResult.from.name} to {exchangeManager.transactionResult.to.name}{" "}
+                conversion — Last updated{" "}
+                {exchangeManager.transactionResult.date?.toLocaleString("en-US", {
+                  year: "numeric",
+                  month: "short",
+                  day: "numeric",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  timeZone: "UTC",
+                  timeZoneName: "short",
+                })}
+              </Typography>
+            )}
+      </Box>
       </Box>
     </>
-  );
-};
+  )
+}
 
-export default ExchangerWrapper;
+export default ExchangerWrapper

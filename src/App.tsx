@@ -1,11 +1,11 @@
-  import {
+import {
   CssBaseline,
   ThemeProvider,
-} from "@mui/material";
-import { theme } from "./theme";
+} from "@mui/material"
+import { theme } from "./theme"
 
-import MainLayout from "./MainLayout";
-import ExchangerWrapper from "./components/ExchangerWrapper";
+import MainLayout from "./MainLayout"
+import ExchangerWrapper from "./components/ExchangerWrapper"
 
 function App() {
   return (
@@ -15,7 +15,7 @@ function App() {
         <ExchangerWrapper />
       </MainLayout>
     </ThemeProvider>
-  );
+  )
 }
 
-export default App;
+export default App
