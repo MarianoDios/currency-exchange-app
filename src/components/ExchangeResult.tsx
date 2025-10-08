@@ -1,6 +1,7 @@
 import { Box, Grid, Paper, Stack, Typography } from "@mui/material"
 import { useViewport } from "../hooks/useViewport"
 import type { ConversionResult } from "../types/currency.types"
+import { formatTransactionDate } from "../utils/dateUtils"
 
 const ExchangeResult = (transactionResult: ConversionResult) => {
   const { isMobile } = useViewport()
@@ -57,15 +58,7 @@ const ExchangeResult = (transactionResult: ConversionResult) => {
                 <Typography variant="body2" color="text.secondary">
                   {transactionResult.from.name} to {transactionResult.to.name}{" "}
                   conversion — Last updated{" "}
-                  {transactionResult.date?.toLocaleString("en-US", {
-                    year: "numeric",
-                    month: "short",
-                    day: "numeric",
-                    hour: "2-digit",
-                    minute: "2-digit",
-                    timeZone: "UTC",
-                    timeZoneName: "short",
-                  })}
+                  {transactionResult.date && formatTransactionDate(transactionResult.date)}
                 </Typography>
               </Box>
             </Grid>

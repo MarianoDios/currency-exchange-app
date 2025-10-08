@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { useExchange } from "../hooks/useExchange"
 import { ErrorToast } from "./ErrorToast"
+import { formatTransactionDate } from "../utils/dateUtils"
 import {
   Box,
   Typography,
@@ -86,15 +87,7 @@ const ExchangerWrapper = () => {
               <Typography variant="body2" color="text.secondary">
                 {exchangeManager.transactionResult.from.name} to {exchangeManager.transactionResult.to.name}{" "}
                 conversion — Last updated{" "}
-                {exchangeManager.transactionResult.date?.toLocaleString("en-US", {
-                  year: "numeric",
-                  month: "short",
-                  day: "numeric",
-                  hour: "2-digit",
-                  minute: "2-digit",
-                  timeZone: "UTC",
-                  timeZoneName: "short",
-                })}
+                { exchangeManager.transactionResult.date && formatTransactionDate(exchangeManager.transactionResult.date)}
               </Typography>
             )}
       </Box>
